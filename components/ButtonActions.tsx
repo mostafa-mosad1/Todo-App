@@ -19,9 +19,9 @@ function ButtonActions({ id, title, body, complete, userId }: ISendTodo) {
         userId={userId as string}
       />
       <Button
-        onClick={() => {
+        onClick={async () => {
           setLoading(true);
-          deleteTodoAction(id);
+          await deleteTodoAction(id);
           setLoading(false);
         }}
         variant={"destructive"}
