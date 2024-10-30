@@ -23,7 +23,8 @@ import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Plus } from "lucide-react";
+import { Plus,Loader } from "lucide-react";
+
 import { useForm } from "react-hook-form";
 import { Checkbox } from "./ui/checkbox";
 import { title } from "process";
@@ -32,7 +33,7 @@ import { useState } from "react";
 
 export function DialogAddTodoForm({ userId }: { userId: string }) {
   const [open, setOpen] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const FormSchema = z.object({
     title: z
       .string()
@@ -49,13 +50,14 @@ export function DialogAddTodoForm({ userId }: { userId: string }) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      title: "1",
-      description: "2",
+      title: "",
+      description: "",
       completed: false,
     },
   });
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     console.log(data);
+    setLoading(true)
     await createTodoAction({
       title: data.title,
       body: data.description,
@@ -63,6 +65,7 @@ export function DialogAddTodoForm({ userId }: { userId: string }) {
       userId: userId,
     });
     setOpen(false)
+    setLoading(false);
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -132,7 +135,7 @@ export function DialogAddTodoForm({ userId }: { userId: string }) {
                 )}
               />
 
-              <Button type="submit">Save changes</Button>
+              <Button  type="submit">Save changes{loading ? <Loader /> : ""}</Button>
             </form>
           </Form>
         </div>

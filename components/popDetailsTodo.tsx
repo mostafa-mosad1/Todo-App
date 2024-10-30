@@ -18,7 +18,7 @@ function PopDetailsTodo({ id, title, body, complete, userId }: ISendTodo) {
   return (
     <>
       <AlertDialog>
-        <AlertDialogTrigger>
+        <AlertDialogTrigger className="bg-primary text-primary-foreground hover:bg-primary/90 p-[6px] rounded-md">
           <Eye />
         </AlertDialogTrigger>
         <AlertDialogContent>
